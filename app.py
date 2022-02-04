@@ -1,10 +1,6 @@
-import sklearn
 from flask import Flask, render_template, request
-from sklearn.datasets import load_iris
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.datasets import make_classification
 import pickle
 import numpy as np
 import pandas as pd
