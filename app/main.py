@@ -9,8 +9,8 @@ app = Flask(__name__)
 
 
 @app.route("/")
-def home():
-    df = pd.read_csv("mushrooms.csv", sep=",")
+def index():
+    df = pd.read_csv("app/data/mushrooms.csv", sep=",")
     cleaned_df = df.dropna()
     X = cleaned_df.iloc[:, 1:25].applymap(lambda x: ord(x))
     Y = cleaned_df.iloc[:, 0]
@@ -61,12 +61,6 @@ def predict():
 
     return render_template("result.html", result=prediction, image="iris-versicolor.jpg")
 
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
-
-app = Flask(__name__)
 
 #
 # @app.route('/')
