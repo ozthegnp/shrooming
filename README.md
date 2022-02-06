@@ -1,5 +1,9 @@
 Update reqs: pipreqs ./
 
+Update interpreter:
+Command Palette (Cmd+Shift+P) -> Python Select Interpreter
+change it to one matching 'which python'
+
 About the csv
 Attribute Information: (classes: edible=e, poisonous=p)
 

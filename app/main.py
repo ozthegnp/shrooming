@@ -10,6 +10,8 @@ import pandas as pd
 from pandas.plotting import scatter_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.cluster import KMeans
+
 sns.set_theme()
 
 
@@ -36,7 +38,8 @@ def index():
     pickle.dump(clf, open("shrooming.pkl", "wb"))
     return render_template("home.html",
                            importance=plots["importance"],
-                           heat=plots["corr_heat"])
+                           heat=plots["corr_heat"],
+                           top4=plots["top4"])
 
 
 @ app.route("/predict", methods=["GET", "POST"])
@@ -66,27 +69,27 @@ def predict():
 
     model = pickle.load(open("shrooming.pkl", "rb"))
     dataframe_for_prediction = pd.DataFrame([[cap_shape,
-                                              cap_surface,
-                                              cap_color,
-                                              bruises,
-                                              odor,
-                                              gill_attachment,
-                                              gill_spacing,
-                                              gill_size,
-                                              gill_color,
-                                              stalk_shape,
-                                              stalk_root,
-                                              stalk_surface,
-                                              stalk_surface_below_ring,
-                                              stalk_color_above_ring,
-                                              stalk_color_below_ring,
-                                              veil_type,
-                                              veil_color,
-                                              ring_number,
-                                              ring_type,
-                                              spore_print,
-                                              population,
-                                              habitat]]).applymap(lambda x: ord(x))
+                                            cap_surface,
+                                            cap_color,
+                                            bruises,
+                                            odor,
+                                            gill_attachment,
+                                            gill_spacing,
+                                            gill_size,
+                                            gill_color,
+                                            stalk_shape,
+                                            stalk_root,
+                                            stalk_surface,
+                                            stalk_surface_below_ring,
+                                            stalk_color_above_ring,
+                                            stalk_color_below_ring,
+                                            veil_type,
+                                            veil_color,
+                                            ring_number,
+                                            ring_type,
+                                            spore_print,
+                                            population,
+                                            habitat]]).applymap(lambda x: ord(x))
     prediction = model.predict(dataframe_for_prediction)
     proba = model.predict_proba(dataframe_for_prediction)
     print("proba")
@@ -109,11 +112,10 @@ def predict():
 
 def save_plots(df, feature_importance, accuracy_percentage):
     importance_dict = gen_importance_dict(df, feature_importance)
-    print(importance_dict)
     return {
         "importance": save_importance_plot(importance_dict),
-        "corr_heat": save_curr_heat_plot(df, importance_dict),
-        # "year": 1964
+        "corr_heat": save_curr_heat_plot(df),
+        "top4": top4(df, importance_dict)
     }
 
 
@@ -125,11 +127,8 @@ def gen_importance_dict(df, feature_importance):
     return shroom_dict
 
 
-def save_curr_heat_plot(df, importance_dict):
+def save_curr_heat_plot(df):
     output_path = "heat.png"
-    # top_4_attr = sorted(
-    #     importance_dict, key=importance_dict.get, reverse=True)[0:4]
-    # sub_df = df[top_4_attr].applymap(lambda x: ord(x)).head(40)
     sns.heatmap(df.applymap(lambda x: ord(x)).corr())
     plt.title("Correlation Heatmap of Attributes")
     plt.savefig('app/static/' + output_path, bbox_inches='tight', dpi=100)
@@ -147,8 +146,64 @@ def save_importance_plot(importance):
 
     ax.bar(keys, values)
     plt.xticks(rotation=90)
-    plt.ylabel("percentage")
+    plt.ylabel("Importance Percentage")
     plt.title("Feature Importance of Trained Model")
     plt.savefig('app/static/' + output_path, bbox_inches='tight', dpi=100)
     plt.close()
+    return output_path
+
+
+def top4(df, importance_dict):
+    output_path = 'top4.png'
+
+    top_4_attr = sorted(
+        importance_dict, key=importance_dict.get, reverse=True)[0:4]
+
+    top1 = top_4_attr[0]
+    top2 = top_4_attr[1]
+    sub_df = df[[top1, top2]].applymap(lambda x: ord(x))
+
+    kmeans = KMeans(n_clusters=3).fit(sub_df)
+    centroids = kmeans.cluster_centers_
+
+    plt.scatter(sub_df[top1], sub_df[top2], c=kmeans.labels_.astype(
+        float), s=50, alpha=0.5)
+    plt.scatter(centroids[:, 0], centroids[:, 1], c='red', s=300)
+    plt.ylabel(top2)
+    plt.xlabel(top1)
+
+    xticks = sub_df[top1].unique().tolist()
+    xlabels = map(lambda x: chr(x), xticks)
+    plt.xticks(xticks, xlabels)
+
+    yticks = sub_df[top2].unique().tolist()
+    ylabels = map(lambda y: chr(y), yticks)
+    plt.yticks(yticks, ylabels)
+    plt.title("K-means Clustering of the 2 Top Important Attributes")
+
+    # X = sub_df.iloc[:, 1:4].applymap(lambda x: ord(x)).values.tolist()
+    # Y = sub_df.iloc[:, 0].values.tolist()
+    # print(X.shape)
+    # print(Y.shape)
+    # scatter_matrix(sub_df)
+    # plt.scatter(X, Y)
+    plt.savefig('app/static/' + output_path, bbox_inches='tight', dpi=100)
+    plt.close()
+
+    # iris = datasets.load_iris()
+
+    # X = iris.data[:, :3]  # we only take the first two features.
+    # y = iris.target
+
+    # fig = plt.figure(figsize=(10, 10))
+    # plt = fig.add_subplot(111, projection='3d')
+    # plt.scatter(X[:, 0], X[:, 1], X[:, 2],
+    #             c=all_predictions, edgecolor='red', s=40, alpha=0.5)
+    # plt.set_title("First three PCA directions")
+    # plt.set_xlabel("Educational_Degree")
+    # plt.set_ylabel("Gross_Monthly_Salary")
+    # plt.set_zlabel("Claim_Rate")
+    # plt.dist = 10
+    # plt
+
     return output_path
