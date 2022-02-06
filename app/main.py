@@ -1,3 +1,5 @@
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from flask import Flask, render_template, request, Response
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -7,11 +9,9 @@ import numpy as np
 import pandas as pd
 from pandas.plotting import scatter_matrix
 import matplotlib.pyplot as plt
-import io
-import random
+import seaborn as sns
+sns.set_theme()
 
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
 
 app = Flask(__name__)
 
@@ -34,7 +34,9 @@ def index():
     plots = save_plots(df, feature_importance, accuracy_percentage)
 
     pickle.dump(clf, open("shrooming.pkl", "wb"))
-    return render_template("home.html", importance=plots["importance"])
+    return render_template("home.html",
+                           importance=plots["importance"],
+                           heat=plots["corr_heat"])
 
 
 @ app.route("/predict", methods=["GET", "POST"])
@@ -110,7 +112,7 @@ def save_plots(df, feature_importance, accuracy_percentage):
     print(importance_dict)
     return {
         "importance": save_importance_plot(importance_dict),
-        "top_corr": save_top_corr_plot(df, importance_dict),
+        "corr_heat": save_curr_heat_plot(df, importance_dict),
         # "year": 1964
     }
 
@@ -123,11 +125,16 @@ def gen_importance_dict(df, feature_importance):
     return shroom_dict
 
 
-def save_top_corr_plot(df, importance_dict):
-    top_4_attr = sorted(
-        importance_dict, key=importance_dict.get, reverse=True)[0:4]
-    print(top_4_attr)
-    return
+def save_curr_heat_plot(df, importance_dict):
+    output_path = "heat.png"
+    # top_4_attr = sorted(
+    #     importance_dict, key=importance_dict.get, reverse=True)[0:4]
+    # sub_df = df[top_4_attr].applymap(lambda x: ord(x)).head(40)
+    sns.heatmap(df.applymap(lambda x: ord(x)).corr())
+    plt.title("Correlation Heatmap of Attributes")
+    plt.savefig('app/static/' + output_path, bbox_inches='tight', dpi=100)
+    plt.close()
+    return output_path
 
 
 def save_importance_plot(importance):
@@ -141,7 +148,7 @@ def save_importance_plot(importance):
     ax.bar(keys, values)
     plt.xticks(rotation=90)
     plt.ylabel("percentage")
-    plt.title("Feature Importance")
+    plt.title("Feature Importance of Trained Model")
     plt.savefig('app/static/' + output_path, bbox_inches='tight', dpi=100)
     plt.close()
     return output_path
