@@ -8,9 +8,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Iris Dataset</title>
+    <title>Mushroom Dataset</title>
 </head>
-<body style="background-color: #b4aee8">
+<body style="background-color: #b78a19">
     <center>
 
         <h1>
@@ -19,7 +19,8 @@
         <div style="border: thick black solid ; width: fit-content; background-color: white; ">
             <form action = "{{ url_for('predict') }}" method="POST" class="text-center border border-light p-5" >
                 <div class="form-group" style="padding:10px;">
-                    <p>Cap-shape</p>
+                    <!-- cap-shape: bell=b,conical=c,convex=x,flat=f, knobbed=k,sunken=s -->
+                    <h3>Cap Shape</h3>
                     <input type="radio" id="bell" name="cap_shape" value="b" checked>
                     <label for="bell">bell</label>
                     <input type="radio" id="conical" name="cap_shape" value="c" >
@@ -32,11 +33,310 @@
                     <label for="knobbed">knobbed</label>
                     <input type="radio" id="sunken" name="cap_shape" value="s">
                     <label for="sunken">sunken</label>
+                    
+                    <!-- cap-surface: fibrous=f,grooves=g,scaly=y,smooth=s -->
+                    <h3>Cap Surface</h3>
+                    <input type="radio" id="fibrous" name="cap_surface" value="f" checked>
+                    <label for="fibrous">fibrous</label>
+                    <input type="radio" id="grooves" name="cap_surface" value="g" >
+                    <label for="grooves">grooves</label>
+                    <input type="radio" id="scaly" name="cap_surface" value="y" >
+                    <label for="scaly">scaly</label>
+                    <input type="radio" id="smooth" name="cap_surface" value="s" >
+                    <label for="smooth">smooth</label>
 
-                    <input style="padding:5px; height:45px"  name = "sepal_length" type="number" class="form-control mb-4" placeholder="Enter sepal length"><br>
-                    <input style="padding:5px" name = "sepal_width" type="number" class="form-control mb-4" placeholder="Enter sepal width"><br>
-                    <input style="padding:5px" name = "petal_length" type="number" class="form-control mb-4" placeholder="Enter petal length"><br>
-                    <input style="padding:5px" name = "petal_width" type="number" class="form-control mb-4" placeholder="Enter petal width"><br>
+                    <!-- cap-color: brown=n,buff=b,cinnamon=c,gray=g,green=r,pink=p,purple=u,red=e,white=w,yellow=y -->
+                    <h3>Cap Color</h3>
+                    <input type="radio" id="brown" name="cap_color" value="n" checked>
+                    <label for="brown">brown</label>
+                    <input type="radio" id="buff" name="cap_color" value="b">
+                    <label for="buff">buff</label>
+                    <input type="radio" id="cinnamon" name="cap_color" value="c">
+                    <label for="cinnamon">cinnamon</label>
+                    <input type="radio" id="gray" name="cap_color" value="g">
+                    <label for="gray">gray</label>
+                    <input type="radio" id="green" name="cap_color" value="r">
+                    <label for="green">green</label>
+                    <input type="radio" id="pink" name="cap_color" value="p">
+                    <label for="pink">pink</label>
+                    <input type="radio" id="purple" name="cap_color" value="u">
+                    <label for="purple">purple</label>
+                    <input type="radio" id="red" name="cap_color" value="e">
+                    <label for="red">red</label>
+                    <input type="radio" id="white" name="cap_color" value="w">
+                    <label for="white">white</label>
+                    <input type="radio" id="yellow" name="cap_color" value="y">
+                    <label for="yellow">yellow</label>
+                    
+                    <!-- bruises: bruises=t,no=f -->
+                    <h3>Bruises</h3>
+                    <input type="radio" id="true" name="bruises" value="t" checked>
+                    <label for="true">has bruises</label>
+                    <input type="radio" id="true" name="bruises" value="f" >
+                    <label for="true">does not have bruises</label>
+                    
+                    <!-- odor: almond=a,anise=l,creosote=c,fishy=y,foul=f,musty=m,none=n,pungent=p,spicy=s -->
+                    <h3>Odor</h3>
+                    <input type="radio" id="almond" name="odor" value="a" checked>
+                    <label for="almond">almond</label>
+                    <input type="radio" id="anise" name="odor" value="l">
+                    <label for="anise">anise</label>
+                    <input type="radio" id="creosote" name="odor" value="c">
+                    <label for="creosote">creosote</label>
+                    <input type="radio" id="fishy" name="odor" value="y">
+                    <label for="fishy">fishy</label>
+                    <input type="radio" id="foul" name="odor" value="f">
+                    <label for="foul">foul</label>
+                    <input type="radio" id="musty" name="odor" value="m">
+                    <label for="musty">musty</label>
+                    <input type="radio" id="none" name="odor" value="n">
+                    <label for="none">none</label>
+                    <input type="radio" id="pungent" name="odor" value="p">
+                    <label for="pungent">pungent</label>
+                    <input type="radio" id="spicy" name="odor" value="s">
+                    <label for="spicy">spicy</label>
+                    
+                    <!-- gill-attachment: attached=a,descending=d,free=f,notched=n -->
+                    <h3>Gill Attachment</h3>
+                    <input type="radio" id="attached" name="gill_attachment" value="a" checked>
+                    <label for="attached">attached</label>
+                    <input type="radio" id="descending" name="gill_attachment" value="d" >
+                    <label for="descending">descending</label>
+                    <input type="radio" id="free" name="gill_attachment" value="f" >
+                    <label for="free">free</label>
+                    <input type="radio" id="notched" name="gill_attachment" value="n" >
+                    <label for="notched">notched</label>
+                    
+                    <!-- gill-spacing: close=c,crowded=w,distant=d -->
+                    <h3>Gill Spacing</h3>
+                    <input type="radio" id="close" name="gill_spacing" value="c" checked>
+                    <label for="close">close</label>
+                    <input type="radio" id="crowded" name="gill_spacing" value="w">
+                    <label for="crowded">crowded</label>
+                    <input type="radio" id="distant" name="gill_spacing" value="d">
+                    <label for="distant">distant</label>
+                    
+                    <!-- gill-size: broad=b,narrow=n -->
+                    <h3>Gill Size</h3>
+                    <input type="radio" id="broad" name="gill_size" value="b" checked>
+                    <label for="broad">broad</label>
+                    <input type="radio" id="narrow" name="gill_size" value="n">
+                    <label for="narrow">narrow</label>
+                    
+                    <!-- gill-color: black=k,brown=n,buff=b,chocolate=h,gray=g, green=r,orange=o,pink=p,purple=u,red=e,white=w,yellow=y -->
+                    <h3>Gill Color</h3>
+                    <input type="radio" id="black" name="gill_color" value="k" checked>
+                    <label for="black">black</label>
+                    <input type="radio" id="brown" name="gill_color" value="n">
+                    <label for="brown">brown</label>
+                    <input type="radio" id="buff" name="gill_color" value="b">
+                    <label for="buff">buff</label>
+                    <input type="radio" id="chocolate" name="gill_color" value="h">
+                    <label for="chocolate">chocolate</label>
+                    <input type="radio" id="gray" name="gill_color" value="g">
+                    <label for="gray">gray</label>
+                    <input type="radio" id="green" name="gill_color" value="r">
+                    <label for="green">green</label>
+                    <input type="radio" id="orange" name="gill_color" value="o">
+                    <label for="orange">orange</label>
+                    <input type="radio" id="pink" name="gill_color" value="p">
+                    <label for="pink">pink</label>
+                    <input type="radio" id="purple" name="gill_color" value="u">
+                    <label for="purple">purple</label>
+                    <input type="radio" id="red" name="gill_color" value="e">
+                    <label for="red">red</label>
+                    <input type="radio" id="white" name="gill_color" value="w">
+                    <label for="white">white</label>
+                    <input type="radio" id="yellow" name="gill_color" value="y">
+                    <label for="yellow">yellow</label>
+                    
+                    <!-- stalk-shape: enlarging=e,tapering=t -->
+                    <h3>Stalk Shape</h3>
+                    <input type="radio" id="enlarging" name="stalk_shape" value="e" checked>
+                    <label for="enlarging">enlarging</label>
+                    <input type="radio" id="tapering" name="stalk_shape" value="t" >
+                    <label for="tapering">tapering</label>
+                    
+                    <!-- stalk-root: bulbous=b,club=c,cup=u,equal=e,rhizomorphs=z,rooted=r,missing=? -->
+                    <h3>Stalk Root</h3>
+                    <input type="radio" id="bulbous" name="stalk_root" value="b" checked>
+                    <label for="bulbous">bulbous</label>
+                    <input type="radio" id="club" name="stalk_root" value="c" >
+                    <label for="club">club</label>
+                    <input type="radio" id="cup" name="stalk_root" value="u" >
+                    <label for="cup">cup</label>
+                    <input type="radio" id="equal" name="stalk_root" value="e" >
+                    <label for="equal">equal</label>
+                    <input type="radio" id="rhizomorphs" name="stalk_root" value="z" >
+                    <label for="rhizomorphs">rhizomorphs</label>
+                    <input type="radio" id="rooted" name="stalk_root" value="r">
+                    <label for="rooted">rooted</label>
+                    <input type="radio" id="missing" name="stalk_root" value="?">
+                    <label for="missing">missing</label>
+                    
+                    <!-- stalk-surface-above-ring: fibrous=f,scaly=y,silky=k,smooth=s -->
+                    <h3>Stalk Surface</h3>
+                    <input type="radio" id="fibrous" name="stalk_surface" value="f" checked>
+                    <label for="fibrous">fibrous</label>
+                    <input type="radio" id="scaly" name="stalk_surface" value="y">
+                    <label for="scaly">scaly</label>
+                    <input type="radio" id="silky" name="stalk_surface" value="k">
+                    <label for="silky">silky</label>
+                    <input type="radio" id="smooth" name="stalk_surface" value="s">
+                    <label for="smooth">smooth</label>
+                    
+                    <!-- stalk-surface-below-ring: fibrous=f,scaly=y,silky=k,smooth=s -->
+                    <h3>Stalk Surface Below Ring</h3>
+                    <input type="radio" id="fibrous" name="stalk_surface_below_ring" value="f" checked>
+                    <label for="fibrous">fibrous</label>
+                    <input type="radio" id="scaly" name="stalk_surface_below_ring" value="y">
+                    <label for="scaly">scaly</label>
+                    <input type="radio" id="silky" name="stalk_surface_below_ring" value="k">
+                    <label for="silky">silky</label>
+                    <input type="radio" id="smooth" name="stalk_surface_below_ring" value="s">
+                    <label for="smooth">smooth</label>
+
+                    <!-- stalk-color-above-ring: brown=n,buff=b,cinnamon=c,gray=g,orange=o,pink=p,red=e,white=w,yellow=y -->
+                    <h3>Stalk Color Above Ring</h3>
+                    <input type="radio" id="brown" name="stalk_color_above_ring" value="n" checked>
+                    <label for="brown">brown</label>
+                    <input type="radio" id="buff" name="stalk_color_above_ring" value="b">
+                    <label for="buff">buff</label>
+                    <input type="radio" id="cinnamon" name="stalk_color_above_ring" value="c">
+                    <label for="cinnamon">cinnamon</label>
+                    <input type="radio" id="gray" name="stalk_color_above_ring" value="g">
+                    <label for="gray">gray</label>
+                    <input type="radio" id="orange" name="stalk_color_above_ring" value="o">
+                    <label for="orange">orange</label>
+                    <input type="radio" id="pink" name="stalk_color_above_ring" value="p">
+                    <label for="pink">pink</label>
+                    <input type="radio" id="red" name="stalk_color_above_ring" value="e">
+                    <label for="red">red</label>
+                    <input type="radio" id="white" name="stalk_color_above_ring" value="w">
+                    <label for="white">white</label>
+                    <input type="radio" id="yellow" name="stalk_color_above_ring" value="y">
+                    <label for="yellow">yellow</label>
+                    
+                    <!-- stalk-color-below-ring: brown=n,buff=b,cinnamon=c,gray=g,orange=o,pink=p,red=e,white=w,yellow=y -->
+                    <h3>Stalk Color Below Ring</h3>
+                    <input type="radio" id="brown" name="stalk_color_below_ring" value="n" checked>
+                    <label for="brown">brown</label>
+                    <input type="radio" id="buff" name="stalk_color_below_ring" value="b">
+                    <label for="buff">buff</label>
+                    <input type="radio" id="cinnamon" name="stalk_color_below_ring" value="c">
+                    <label for="cinnamon">cinnamon</label>
+                    <input type="radio" id="gray" name="stalk_color_below_ring" value="g">
+                    <label for="gray">gray</label>
+                    <input type="radio" id="orange" name="stalk_color_below_ring" value="o">
+                    <label for="orange">orange</label>
+                    <input type="radio" id="pink" name="stalk_color_below_ring" value="p">
+                    <label for="pink">pink</label>
+                    <input type="radio" id="red" name="stalk_color_below_ring" value="e">
+                    <label for="red">red</label>
+                    <input type="radio" id="white" name="stalk_color_below_ring" value="w">
+                    <label for="white">white</label>
+                    <input type="radio" id="yellow" name="stalk_color_below_ring" value="y">
+                    <label for="yellow">yellow</label>
+                    
+                    <!-- veil-type: partial=p,universal=u -->
+                    <h3>Veil Type</h3>
+                    <input type="radio" id="partial" name="veil_type" value="p" checked>
+                    <label for="partial">partial</label>
+                    <input type="radio" id="universal" name="veil_type" value="u">
+                    <label for="universal">universal</label>
+                    
+                    <!-- veil-color: brown=n,orange=o,white=w,yellow=y -->
+                    <h3>Veil Color</h3>
+                    <input type="radio" id="brown" name="veil_color" value="n" checked>
+                    <label for="brown">brown</label>
+                    <input type="radio" id="orange" name="veil_color" value="o">
+                    <label for="orange">orange</label>
+                    <input type="radio" id="white" name="veil_color" value="w">
+                    <label for="white">white</label>
+                    <input type="radio" id="yellow" name="veil_color" value="y">
+                    <label for="yellow">yellow</label>
+                    
+                    <!-- ring-number: none=n,one=o,two=t -->
+                    <h3>Ring Number</h3>
+                    <input type="radio" id="none" name="ring_number" value="n" checked>
+                    <label for="none">none</label>
+                    <input type="radio" id="one" name="ring_number" value="o">
+                    <label for="one">one</label>
+                    <input type="radio" id="two" name="ring_number" value="t">
+                    <label for="two">two</label>                    
+                    
+                    <!-- ring-type: cobwebby=c,evanescent=e,flaring=f,large=l,none=n,pendant=p,sheathing=s,zone=z -->
+                    <h3>Ring Type</h3>
+                    <input type="radio" id="cobwebby" name="ring_type" value="c" checked>
+                    <label for="cobwebby">cobwebby</label>
+                    <input type="radio" id="evanescent" name="ring_type" value="e">
+                    <label for="evanescent">evanescent</label>
+                    <input type="radio" id="flaring" name="ring_type" value="f">
+                    <label for="flaring">flaring</label>
+                    <input type="radio" id="large" name="ring_type" value="l">
+                    <label for="large">large</label>
+                    <input type="radio" id="none" name="ring_type" value="n">
+                    <label for="none">none</label>
+                    <input type="radio" id="pendant" name="ring_type" value="p">
+                    <label for="pendant">pendant</label>
+                    <input type="radio" id="sheathing" name="ring_type" value="s">
+                    <label for="sheathing">sheathing</label>
+                    <input type="radio" id="zone" name="ring_type" value="z">
+                    <label for="zone">zone</label>
+                    
+                    <!-- spore-print-color: black=k,brown=n,buff=b,chocolate=h,green=r,orange=o,purple=u,white=w,yellow=y -->
+                    <h3>Spore Print Color</h3>
+                    <input type="radio" id="black" name="spore_print" value="k" checked>
+                    <label for="black">black</label>
+                    <input type="radio" id="brown" name="spore_print" value="n">
+                    <label for="brown">brown</label>
+                    <input type="radio" id="buff" name="spore_print" value="b">
+                    <label for="buff">buff</label>
+                    <input type="radio" id="chocolate" name="spore_print" value="h">
+                    <label for="chocolate">chocolate</label>
+                    <input type="radio" id="green" name="spore_print" value="r">
+                    <label for="green">green</label>
+                    <input type="radio" id="orange" name="spore_print" value="o">
+                    <label for="orange">orange</label>
+                    <input type="radio" id="purple" name="spore_print" value="u">
+                    <label for="purple">purple</label>
+                    <input type="radio" id="white" name="spore_print" value="w">
+                    <label for="white">white</label>
+                    <input type="radio" id="yellow" name="spore_print" value="y">
+                    <label for="yellow">yellow</label>
+                    
+                    <!-- population: abundant=a,clustered=c,numerous=n,scattered=s,several=v,solitary=y -->
+                    <h3>Population</h3>
+                    <input type="radio" id="abundant" name="population" value="a" checked >
+                    <label for="abundant">abundant</label>
+                    <input type="radio" id="clustered" name="population" value="c">
+                    <label for="clustered">clustered</label>
+                    <input type="radio" id="numerous" name="population" value="n">
+                    <label for="numerous">numerous</label>
+                    <input type="radio" id="scattered" name="population" value="s">
+                    <label for="scattered">scattered</label>
+                    <input type="radio" id="several" name="population" value="v">
+                    <label for="several">several</label>
+                    <input type="radio" id="solitary" name="population" value="y">
+                    <label for="solitary">solitary</label>
+                    
+                    <!-- habitat: grasses=g,leaves=l,meadows=m,paths=p,urban=u,waste=w,woods=d -->
+                    <h3>Habitat</h3>
+                    <input type="radio" id="grasses" name="habitat" value="g" checked >
+                    <label for="grasses">grasses</label>
+                    <input type="radio" id="leaves" name="habitat" value="l">
+                    <label for="leaves">leaves</label>
+                    <input type="radio" id="meadows" name="habitat" value="m">
+                    <label for="meadows">meadows</label>
+                    <input type="radio" id="paths" name="habitat" value="p">
+                    <label for="paths">paths</label>
+                    <input type="radio" id="urban" name="habitat" value="u">
+                    <label for="urban">urban</label>
+                    <input type="radio" id="waste" name="habitat" value="w">
+                    <label for="waste">waste</label>
+                    <input type="radio" id="woods" name="habitat" value="d">
+                    <label for="woods">woods</label>
+
                     <button type="submit" class="btn btn-primary btn-block mb-3">Submit</button>
                 </div>
             </form>

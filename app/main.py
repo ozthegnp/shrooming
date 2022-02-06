@@ -21,12 +21,7 @@ def index():
     clf.fit(X_train, y_train)
 
     # print(clf.feature_importances_)
-
-    # iris = load_iris()
-    # model = KNeighborsClassifier(n_neighbors=3)
-    # X_train, x_test, y_train, y_test = train_test_split(iris.data, iris.target)
-    # model.fit(X_train, y_train)
-    pickle.dump(clf, open("iris.pkl", "wb"))
+    pickle.dump(clf, open("shrooming.pkl", "wb"))
 
     return render_template("home.html")
 
@@ -34,78 +29,58 @@ def index():
 @app.route("/predict", methods=["GET", "POST"])
 def predict():
     cap_shape = request.form['cap_shape']
-    print(cap_shape)
-    # sepal_width = 2  # request.form['sepal_width']
-    # petal_length = 2  # request.form['petal_length']
-    # petal_width = 2  # request.form['petal_width']
-    # form_array = np.array(
-    #     [[sepal_length, sepal_width, petal_length, petal_width]])
-    model = pickle.load(open("iris.pkl", "rb"))
-    me = pd.DataFrame([[cap_shape, 'b', 'a', 'b',
-                        'b', 'a', 'b', 'e',
-                        'e', 'b',  'b', 'a',
-                        'a', 'b',  'b', 'a',
-                        'a', 'b',  'b', 'a',
-                        'b',  'b']]).applymap(lambda x: ord(x))
-    prediction = model.predict(me)
+    cap_surface = request.form["cap_surface"]
+    cap_color = request.form["cap_color"]
+    bruises = request.form["bruises"]
+    odor = request.form["odor"]
+    gill_attachment = request.form["gill_attachment"]
+    gill_spacing = request.form["gill_spacing"]
+    gill_size = request.form["gill_size"]
+    gill_color = request.form["gill_color"]
+    stalk_shape = request.form["stalk_shape"]
+    stalk_root = request.form["stalk_root"]
+    stalk_surface = request.form["stalk_surface"]
+    stalk_surface_below_ring = request.form["stalk_surface_below_ring"]
+    stalk_color_above_ring = request.form["stalk_color_above_ring"]
+    stalk_color_below_ring = request.form["stalk_color_below_ring"]
+    veil_type = request.form["veil_type"]
+    veil_color = request.form["veil_color"]
+    ring_number = request.form["ring_number"]
+    ring_type = request.form["ring_type"]
+    spore_print = request.form["spore_print"]
+    population = request.form["population"]
+    habitat = request.form["habitat"]
 
-    # if prediction == 0:
-    #     result = "Iris Setosa"
-    #     image = "iris-setosa.jpg"
-    # elif prediction == 1:
-    #     result = "Iris Versicolor"
-    #     image = "iris-versicolor.jpg"
-    # else:
-    #     result = "Iris Virginica"
-    #     image = "iris-virginica.jpg"
+    model = pickle.load(open("shrooming.pkl", "rb"))
+    dataframe_for_prediction = pd.DataFrame([[cap_shape,
+                                              cap_surface,
+                                              cap_color,
+                                              bruises,
+                                              odor,
+                                              gill_attachment,
+                                              gill_spacing,
+                                              gill_size,
+                                              gill_color,
+                                              stalk_shape,
+                                              stalk_root,
+                                              stalk_surface,
+                                              stalk_surface_below_ring,
+                                              stalk_color_above_ring,
+                                              stalk_color_below_ring,
+                                              veil_type,
+                                              veil_color,
+                                              ring_number,
+                                              ring_type,
+                                              spore_print,
+                                              population,
+                                              habitat]]).applymap(lambda x: ord(x))
+    prediction = model.predict(dataframe_for_prediction)
 
-    return render_template("result.html", result=prediction, image="iris-versicolor.jpg")
+    if prediction == ['e']:
+        result = "Edible"
+        image = "edible.jpeg"
+    else:
+        result = "Poisonous"
+        image = "poisonous.jpeg"
 
-
-#
-# @app.route('/')
-# def home():
-#     iris = load_iris()
-#     X_train,X_test,y_train,y_test = train_test_split(iris.data,iris.target,test_size=0.25)
-#     model = KNeighborsClassifier(n_neighbors=3)
-#     model.fit(X_train, y_train)
-#     pickle.dump(model,open('iris.pkl','wb'))
-#     return render_template('home.html')
-#
-#
-# @app.route('/predict', methods=['GET', 'POST'])
-# def predict():
-#     sepal_length = request.form['sepal_length']
-#     sepal_width = request.form['sepal_width']
-#     petal_length = request.form['petal_length']
-#     petal_width = request.form['petal_width']
-#
-#     form_array = np.array([[sepal_length, sepal_width, petal_length, petal_width]])
-#     model = pickle.load(open('iris.pkl', 'rb'))
-#     prediction = model.predict(form_array)[0]
-#     if(prediction==0):
-#         result="Iris Setosa"
-#     elif(prediction==1):
-#         result = "Iris Versicolour"
-#     else:
-#         result = "Iris Virginica"
-#     return render_template('result.html', result=result)
-#
-#
-# # @app.route('/predict', methods=['GET', 'POST'])
-# # def predict():
-# #     print("here")
-# #     sepal_length = request.args['sepallength']
-# #     print(sepal_length)
-# #     sepal_width = request.form['sepal_width']
-# #     petal_length = request.form['petal_length']
-# #     petal_width = request.form['peal_width']
-# #
-# #     form_array = np.array([[sepal_length,sepal_width,petal_length,petal_width]])
-# #     model = pickle.load(open('iris.pkl','rb'))
-# #     prediction = model.predict(form_array)
-# #     return render_template('result.html',result=prediction)
-#
-#
-# if __name__ == '__main__':
-#     app.run(debug=True)
+    return render_template("result.html", result=result, image=image)
