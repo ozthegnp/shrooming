@@ -1,13 +1,9 @@
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from flask import Flask, render_template, request, Response
+from flask import Flask, render_template, request
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, plot_confusion_matrix
+from sklearn.metrics import accuracy_score
 import pickle
-import numpy as np
 import pandas as pd
-from pandas.plotting import scatter_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.cluster import KMeans
