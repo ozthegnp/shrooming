@@ -17,8 +17,8 @@
                 Internal Tool of Mushroom Edibility Feature Project
             </h1>
             <br>
-            <p>Welcome to the mushroom edibility DASHBOARD! This dashboard has all necesary data <br>
-                that serves as a proof of concept for the proposed feature withing the HikingPal App.<br>
+            <p>Welcome to the mushroom edibility DASHBOARD! This dashboard has all necessary data <br>
+                that serves as a proof of concept for the proposed feature within the HikingPal App.<br>
                 The feature will use a collected mushroom dataset that will be used as the base<br>
                 of a trained machine-learning model. Using the model we'll be able to predict if the <br>
                 is edible or not.
@@ -30,10 +30,10 @@
                 Descriptive and Non-Descriptive Methods
             </h3>
             <p>The tool includes two data methods:<br>
-                * Descriptive method: three visuals that describes the data and supports bett understanding of prediction.<br>
+                * Descriptive method: three visuals that describe the data and supports the understanding of the data.<br>
                 * Non-Descriptive method: based on the data we train our machine-learning model with <br>
                 a Random Forest Classifier algorithm. The trained model then serves to predict the <br>
-                edibility of a specfic mushroom using its attributes.
+                edibility of a specific mushroom using its attributes.
             </p>
             <h3>
                The Dataset
@@ -69,49 +69,64 @@
                 Decision Support functionality
             </h3>
             <p>As described in the main feature request, the dataset will allow a decision support functionality<br>
-                using machine learning. On the bottom of this page, please use the prediction form and submit for results<br>
+                using machine learning. At the bottom of this page, please use the prediction form and submit for results<br>
+            </p>
+            <h3>
+                Data Parsing
+            </h3>
+            <p>The Data source is in CSV format including characters describing the mushroom attributes.<br>
+                In order to train our model, the data has to be read by a python csv parser, and the characters have to be<br>
+                converted to numerical values. This project uses the ASCII equivalent of each character for simplicity.
+            </p>
+            <h3>
+                Data Exploration and Visualization
+            </h3>
+            <p>By using three different visualizations of the data we are able to understand which attributes have a<br>
+                key role in classifying the mushroom.<br>
+                <b>Attribute Importance:</b> Using the Random Forest Classifier's feature importance method we can<br>
+                   can use a matplotlib graph to understand which are the key factors.<br>
+                <b>Correlation Heatmap:</b> Using the correlation method of the data frame we can use a heatmap from<br>
+                the seaborn library. We can see that there is a strong correlation e.g. for the gill-size and gill-color<br>
+                the veil-type has no effect on other data as it is a constant value.<br>
+                <b>K-Means Cluster:</b> Using the importance score we can pick the two most important attributes<br>
+                which could be further analyzed by plotting them with K-Means clustering. We can then analyze <br>
+                the centroids of the relevant attributes.
+            </p>
+            <h3>
+                Interactive Queries
+            </h3>
+            <p>As a non-descriptive method, the dashboard is capable of interactively describing a mushroom by its<br>
+                attributes and using the trained machine learning model we can predict if the mushroom is edible or not.
+            </p>
+            <h3>
+                Machine-learning Methods and Algorithms
+            </h3>
+            <p>Our model is using Random Forest Classifier algorithm from the sklearn python library.<br>
+            The application uses the corr() function the verify the correlation between all attributes.
+            </p>
+            <h3>
+                Evaluating Data Accuracy
+            </h3>
+            <p>The application takes advantage of the accuracy_score function of the algorithm to split the data into <br>
+            two sets. The train set will be used to train the model and the test set will verify the model's accuracy.<br>
+            After using 30% of the data for testing we have resulted in an 83% accuracy.
+            </p>
+            <h3>
+                Security Measures
+            </h3>
+            <p>The source code of the app is version-controlled on github with limited access exclusively<br>
+                for developers. The main data frame can only be manipulated by changing the version-controlled<br>
+                source code and adding additional lines to the csv file. The changes then will be reviewed<br>
+                by other developers and only added to the production code if approved.
+            </p>
+            <h3>
+                Product Health Monitoring
+            </h3>
+            <p>The app will be hosted by Heroku and the code will be deployed to its server. The Heroku web client<br>
+                is capable of showing metrics and logs that serve to check if the tool is healthy. In case the app<br>
+                crashes, an alert will be sent to developers and a server restart will automatically take place.
             </p>
         </div>
-                <!--
-                    
-                        Analytics– Using the given data, your application needs to enable decisions to be
-                        formulated or support for given trends to be provided.
-                        Data Cleaning – if applicable, create a function that will make the data usable prior to
-                        actually being used by the application. Things such as featuring, parsing, cleaning, and
-                        wrangling the datasets.
-                        Data Visualization – You need at least three real-time (e.g. using the GUI/dashboard)
-                        formats to visualize the data in a graphic format. Look at things like charting, mapping,
-                        color theory, plots, diagrams, or other methods (tables must include heat mapping).
-                        These, in conjunction with or as a part of your GUI, would enable users to explore or
-                        inspect the data characteristics.
-                        Real-Time Queries – As part of your GUI enable users to access and manipulate data
-                        real-time including data maintenance. This does not deal with data “freshness” but with
-                        the query response time being in seconds.
-                        Adaptive Element – if appropriate for the business need, provide the implementation of
-                        machine-learning methods and algorithms to enable the application to improve with
-                        experience. Examples include learning associations, classification, statistical arbitrage,
-                        prediction, extraction, and regression.
-                        Outcome Accuracy – provide functionalities that evaluate the accuracy of the
-                        information/outcomes given by the application. What are the parameters for valid output
-                        data and how will those be checked by the application?
-                        Security Measures – include industry-appropriate security features that will control
-                        access to the data and/or, how the data is stored or transmitted. The security features
-                        should be appropriate for the data product and the sensitivity of the data it interacts with.
-                        For example, with a web application this requirement might be satisfied by implementing
-                        username/password authentication.
-                        
-                        Product Health Monitoring – include functionality that will enable the application’s
-                        “health” and reliability to be monitored. It should answer the questions, “Is the application
-                        performing correctly after being deployed?” For example, the use of displays or logs to
-                        quickly discover, isolate and solve problems that can negatively affect the application’s
-                        performance and accuracy. If the data continues to accumulate, is it still accurate? If the
-                        code gets corrupted and needs to be fixed, is there a debugger to address that? With a
-                        system that evaluates the statistical or the practical significance of the product, there
-                        should be a monitoring tool.
-                        
-                        Dashboard – include a user-friendly, functional dashboard that enables the query and
-                        display of the data, as well as other functionality described in this section. This could be
-                        stand-alone, Web-based, or a mobile application interface. -->
         <div style="border: thick black solid ; width: fit-content; background-color: white; ">
             <img src="../static/{{ importance }}" style="padding:20px;" >
         </div>
