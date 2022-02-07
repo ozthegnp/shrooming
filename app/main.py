@@ -44,7 +44,6 @@ def retrain():
     clf.fit(X_train, y_train)
     accuracy_percentage = accuracy_score(clf.predict(X_test), y_test)
     feature_importance = clf.feature_importances_
-    # plot_confusion_matrix(clf, X_test, y_test)
     save_plots(df, feature_importance)
     train_data = {'accuracy': accuracy_percentage,
                   'date': datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
@@ -192,30 +191,6 @@ def top4(df, importance_dict):
     ylabels = map(lambda y: chr(y), yticks)
     plt.yticks(yticks, ylabels)
     plt.title("K-means Clustering of the 2 Top Important Attributes")
-
-    # X = sub_df.iloc[:, 1:4].applymap(lambda x: ord(x)).values.tolist()
-    # Y = sub_df.iloc[:, 0].values.tolist()
-    # print(X.shape)
-    # print(Y.shape)
-    # scatter_matrix(sub_df)
-    # plt.scatter(X, Y)
     plt.savefig('app/static/' + output_path, bbox_inches='tight', dpi=100)
     plt.close()
-
-    # iris = datasets.load_iris()
-
-    # X = iris.data[:, :3]  # we only take the first two features.
-    # y = iris.target
-
-    # fig = plt.figure(figsize=(10, 10))
-    # plt = fig.add_subplot(111, projection='3d')
-    # plt.scatter(X[:, 0], X[:, 1], X[:, 2],
-    #             c=all_predictions, edgecolor='red', s=40, alpha=0.5)
-    # plt.set_title("First three PCA directions")
-    # plt.set_xlabel("Educational_Degree")
-    # plt.set_ylabel("Gross_Monthly_Salary")
-    # plt.set_zlabel("Claim_Rate")
-    # plt.dist = 10
-    # plt
-
     return output_path
