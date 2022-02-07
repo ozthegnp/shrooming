@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
@@ -7,6 +7,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.cluster import KMeans
+from datetime import datetime
+
 
 sns.set_theme()
 
@@ -16,26 +18,40 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
+    train_data = pickle.load(open("train_data.pkl", "rb"))
+    print(train_data)
+
+    return render_template("home.html",
+                           importance="importance.png",
+                           heat="heat.png",
+                           top4="top4.png",
+                           accuracy=train_data['accuracy'],
+                           date=train_data['date'],
+                           test=train_data['test'])
+
+
+@app.route("/retrain")
+def retrain():
     df = pd.read_csv("app/data/mushrooms.csv", sep=",")
     cleaned_df = df.dropna()
-
+    test_size = 0.3
     X = cleaned_df.iloc[:, 1:25].applymap(lambda x: ord(x))
     Y = cleaned_df.iloc[:, 0]
     X_train, X_test, y_train, y_test = train_test_split(
-        X, Y, test_size=0.3)
+        X, Y, test_size=test_size)
 
     clf = RandomForestClassifier()
     clf.fit(X_train, y_train)
     accuracy_percentage = accuracy_score(clf.predict(X_test), y_test)
     feature_importance = clf.feature_importances_
     # plot_confusion_matrix(clf, X_test, y_test)
-    plots = save_plots(df, feature_importance, accuracy_percentage)
-
+    save_plots(df, feature_importance)
+    train_data = {'accuracy': accuracy_percentage,
+                  'date': datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+                  'test': test_size}
+    pickle.dump(train_data, open("train_data.pkl", "wb"))
     pickle.dump(clf, open("shrooming.pkl", "wb"))
-    return render_template("home.html",
-                           importance=plots["importance"],
-                           heat=plots["corr_heat"],
-                           top4=plots["top4"])
+    return redirect("/")
 
 
 @ app.route("/predict", methods=["GET", "POST"])
@@ -106,7 +122,7 @@ def predict():
                            probability=round(max(proba[0]), 2))
 
 
-def save_plots(df, feature_importance, accuracy_percentage):
+def save_plots(df, feature_importance):
     importance_dict = gen_importance_dict(df, feature_importance)
     return {
         "importance": save_importance_plot(importance_dict),
