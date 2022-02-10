@@ -11,8 +11,6 @@ from datetime import datetime
 
 
 sns.set_theme()
-
-
 app = Flask(__name__)
 
 
@@ -24,7 +22,7 @@ def index():
     return render_template("home.html",
                            importance="importance.png",
                            heat="heat.png",
-                           top4="top4.png",
+                           top2="top2.png",
                            accuracy=train_data['accuracy'],
                            date=train_data['date'],
                            test=train_data['test'])
@@ -126,7 +124,7 @@ def save_plots(df, feature_importance):
     return {
         "importance": save_importance_plot(importance_dict),
         "corr_heat": save_curr_heat_plot(df),
-        "top4": top4(df, importance_dict)
+        "top2": top2(df, importance_dict)
     }
 
 
@@ -164,8 +162,8 @@ def save_importance_plot(importance):
     return output_path
 
 
-def top4(df, importance_dict):
-    output_path = 'top4.png'
+def top2(df, importance_dict):
+    output_path = 'top2.png'
 
     top_4_attr = sorted(
         importance_dict, key=importance_dict.get, reverse=True)[0:4]
