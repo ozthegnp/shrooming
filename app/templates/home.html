@@ -132,6 +132,9 @@
             Current Model Trained: {{date}}<br>
             Training accuracy: {{accuracy}}<br>
             Test Size: {{test}}<br><br>
+            Confusion Matrix:<br>
+            <img src="../static/{{ confusion }}" style="padding:20px;  width: fit-content;">
+
             <p>Press button to retrain model.<br> Hard refresh(ctrl/cmd + R) to update cache for new image display</p>
             <a href="/retrain" class="btn btn-primary btn-block mb-3">Retrain</a>
         </div>
