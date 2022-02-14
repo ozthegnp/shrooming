@@ -181,7 +181,7 @@ def top2(df, importance_dict):
     top2 = top_4_attr[1]
     sub_df = df[[top1, top2]].applymap(lambda x: ord(x))
 
-    kmeans = KMeans(n_clusters=3).fit(sub_df)
+    kmeans = KMeans(n_clusters=2).fit(sub_df)
     centroids = kmeans.cluster_centers_
 
     plt.scatter(sub_df[top1], sub_df[top2], c=kmeans.labels_.astype(
